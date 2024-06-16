@@ -33,9 +33,36 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill",
+                    "name": "Skillw",
                     "type": "Button",
                     "id": "b0c7384e-1fb7-4c3a-81b7-611e27bed41c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skille",
+                    "type": "Button",
+                    "id": "d5ffa5e5-e5b9-41b1-92de-38ebde1661cd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Skillr",
+                    "type": "Button",
+                    "id": "4289d681-c2e7-40f4-9af7-7543d2050310",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Mose Click Active",
+                    "type": "Button",
+                    "id": "c9f5e906-1870-4f51-a904-f13a6dbac31d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -83,29 +110,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill",
+                    "action": "Skillw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "84d13fc1-c6dc-4c9e-9d54-72da4cebcc29",
+                    "id": "07eb9108-0694-49fc-9a25-df274e21d628",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill",
+                    "action": "Skille",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "644184c5-e5c0-4102-81f9-1656093d50af",
+                    "id": "16f2fbaf-3ce9-46ad-ae82-44aed6c21b47",
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill",
+                    "action": "Skillr",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7cb5d368-2392-426c-9ee3-134aab970c6a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mose Click Active",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

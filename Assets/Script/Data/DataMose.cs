@@ -7,10 +7,8 @@ using UnityEngine.InputSystem;
 [Serializable]
 public class DataMose 
 {
-    public  InputActionReference _actionMousePosition;
-    public  InputActionReference _actionMouseClick;
-    public  Camera _camera;
-    public  Transform _target;
-    public  LayerMask _checkLayer;
-    public  float _maxDistance;
+    public InputActionReference _actionMousePosition;
+    public Camera _camera;
+    public float _maxDistance;
+    public LayerMask _checkLayer;
 }

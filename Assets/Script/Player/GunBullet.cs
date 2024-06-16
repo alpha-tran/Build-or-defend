@@ -19,6 +19,7 @@ public class GunBullet : MonoBehaviour
     [SerializeField] private LayerMask _mask; // Layer của kẻ thù
     [SerializeField] private GameObject _RangeObject; // game object tầm đánh
     [SerializeField] private InputActionReference _InputRange;
+
     [Header("sinh ra đạn")]
     [SerializeField] protected Transform _insTransform; // vị trí sinh ra
     [SerializeField] protected GameObject _prefabBullet; // model
@@ -91,17 +92,6 @@ public class GunBullet : MonoBehaviour
 
     private void RangeOn()
     {
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    print("true");
-        //    _RangeObject.SetActive(true);
-        //}
-        //else if (Input.GetKeyUp(KeyCode.A))
-        //{
-        //    print("fa");
-
-        //_RangeObject.SetActive(false);
-        //}
        
             if (_InputRange.action.IsPressed())
             {

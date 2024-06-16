@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 
 public class MosePosition : MonoBehaviour
 {
-    
-   public DataMose dataMose;
+    [SerializeField] private  InputActionReference _actionClick;
+    public DataMose dataMose;
+    [SerializeField] private Transform _target;
     private void Update()
     {
         UpdatePosition();
@@ -14,13 +15,13 @@ public class MosePosition : MonoBehaviour
 
     public void UpdatePosition()
     {
-        if (dataMose._actionMouseClick.action.triggered)
+        if (_actionClick.action.triggered)
         {
             var mosePosition = dataMose._actionMousePosition.action.ReadValue<Vector2>();
             Ray aimingRay = dataMose._camera.ScreenPointToRay(mosePosition);
             if (Physics.Raycast(aimingRay, out var hitInfo, dataMose._maxDistance, dataMose._checkLayer))
             {
-                dataMose._target.position = hitInfo.point;
+                _target.position = hitInfo.point;
             }
         }
     }
