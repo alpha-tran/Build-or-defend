@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy(FormationEnemy form, int i)
     {
-        GameObject enemy = Instantiate(form.Formation.Prefab);
+        //GameObject enemy = Instantiate(form.Formation.Prefab);
         //FlyAgent agent = enemy.GetComponent<FlyAgent>();
         //agent.route = form.route;
         //agent.formationDistance = form.formationDistance * index;

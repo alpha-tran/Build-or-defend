@@ -873,8 +873,6 @@ MonoBehaviour:
     delay: 0
     Formation:
       description: 
-      damage: 0
-      Prefab: {fileID: 0}
       range: 0
       Type: 0
   - _enemyNav: {fileID: 0}
@@ -882,8 +880,6 @@ MonoBehaviour:
     delay: 0
     Formation:
       description: 
-      damage: 0
-      Prefab: {fileID: 0}
       range: 0
       Type: 0
   _target: {fileID: 1024856282}
@@ -1344,11 +1340,11 @@ RectTransform:
   - {fileID: 916822801}
   m_Father: {fileID: 1083898525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 116, y: 44.899994}
-  m_SizeDelta: {x: 50.038788, y: 43.3161}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -116.900024, y: 21.5}
+  m_SizeDelta: {x: 50.03882, y: 43.3161}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &532275093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2701,17 +2697,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   formationSkill:
-  - delay: 1
-    Formation:
-      description: "tri\u1EC7u h\u1ED3i v\xE0 th\u1EA3 1 t\u1EA3ng \u0111\xE1 xu\u1ED1ng
-        khu v\u1EF1c ch\u1EC9 \u0111\u1ECBnh"
-      damage: 3
-      Prefab: {fileID: 8051716202904161271, guid: 267c617de02ccd4488b4c08a52759b95,
-        type: 3}
+  - delay: 5
+    inputSkill: {fileID: 6826807840825944951, guid: aac5860775128054788500042dfdea35,
+      type: 3}
+    formation:
+      description: "t\u0103ng dame cho player v\xE0 m\u1EE5c ti\xEAu xung quanh"
       range: 15
       Type: 1
-  _inputSkill: {fileID: 6826807840825944951, guid: aac5860775128054788500042dfdea35,
-    type: 3}
+  - delay: 7
+    inputSkill: {fileID: -8422597598150848285, guid: aac5860775128054788500042dfdea35,
+      type: 3}
+    formation:
+      description: "H\u1ED3i m\xE1u cho player v\xE0 c\xE1c tr\u1EE5 xung quanh"
+      range: 5
+      Type: 2
+  - delay: 10
+    inputSkill: {fileID: 4025008674154058055, guid: aac5860775128054788500042dfdea35,
+      type: 3}
+    formation:
+      description: "tri\u1EC7u h\u1ED3i t\u1EA3ng \u0111\xE1 g\xE2y s\xE1t th\u01B0\u01A1ng
+        c\xE1c k\u1EBB \u0111\u1ECBch trong t\u1EA7m "
+      range: 20
+      Type: 3
   _inputClick: {fileID: -2501513708195626323, guid: aac5860775128054788500042dfdea35,
     type: 3}
   _rangeObject: {fileID: 166273945}
@@ -2725,6 +2732,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 262144
   skillActivated: 0
+  damage: 0
+  Prefab: {fileID: 8051716202904161271, guid: 267c617de02ccd4488b4c08a52759b95, type: 3}
 --- !u!4 &1039489970 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 829208463224468787, guid: bebc5ccc8205d3248b562f46b17b1ffd,
@@ -2890,7 +2899,7 @@ GameObject:
   - component: {fileID: 1083898527}
   - component: {fileID: 1083898526}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3315,11 +3324,11 @@ RectTransform:
   - {fileID: 1452129355}
   m_Father: {fileID: 1083898525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 41.899994, y: 44.399994}
-  m_SizeDelta: {x: 50.038788, y: 43.3161}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -191, y: 21}
+  m_SizeDelta: {x: 50.03882, y: 43.3161}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1288357540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4315,11 +4324,11 @@ RectTransform:
   - {fileID: 1627483538}
   m_Father: {fileID: 1083898525}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 190.20001, y: 45.199997}
-  m_SizeDelta: {x: 50.038788, y: 43.3161}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -42.700012, y: 21.800003}
+  m_SizeDelta: {x: 50.03882, y: 43.3161}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1668232517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5418,7 +5427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2068734250}
   m_Layer: 0
-  m_Name: Skill
+  m_Name: Canvans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

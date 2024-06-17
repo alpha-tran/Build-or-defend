@@ -9,8 +9,6 @@ using UnityEngine.InputSystem;
 public class Formation
 {
     public string description;
-    public float damage;
-    public GameObject Prefab;
     public int range;
     public int Type;
 
