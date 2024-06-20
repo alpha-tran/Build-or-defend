@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0129fcd3d7e63ff4c9ef5d1cad96e863, type: 3}
+  m_Name: SkillW
+  m_EditorClassIdentifier: 
+  timeRetrieval: 3
+  inputSkill: {fileID: 6826807840825944951, guid: aac5860775128054788500042dfdea35,
+    type: 3}
+  formation: {fileID: 11400000, guid: 1f4817b006188ca4d900a84ec986f9ab, type: 2}
+  count: 0

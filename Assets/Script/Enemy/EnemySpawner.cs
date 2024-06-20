@@ -7,17 +7,13 @@ using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("Sinh ra quái")]
+    [SerializeField] private Transform _insTransform; // vị trí sinh ra
+    [SerializeField] private float _enemyInterval;
+
     [Header("Thông tin quái")]
     [SerializeField] private FormationEnemy[] enemyFor;
 
-    [SerializeField] private Transform _target;
-    [SerializeField] private float _enemyInterval;
-
-    [Header("Sinh ra quái")]
-    [SerializeField] protected Transform _insTransform; // vị trí sinh ra
-    [SerializeField] protected GameObject _prefabEnemy; // model
-
-  
 
 
     // Start is called before the first frame update
@@ -35,21 +31,14 @@ public class EnemySpawner : MonoBehaviour
         FormationEnemy form = enemyFor[index];
         for(int i = 0; i< form.count; i++)
         {
-            SpawnEnemy(form, i);
+            SpawnEnemy(form);
         }    
     }
 
-    private void SpawnEnemy(FormationEnemy form, int i)
+    private void SpawnEnemy(FormationEnemy form)
     {
-        //GameObject enemy = Instantiate(form.Formation.Prefab);
-        //FlyAgent agent = enemy.GetComponent<FlyAgent>();
-        //agent.route = form.route;
-        //agent.formationDistance = form.formationDistance * index;
-        //agent.speed = form.speed;
-        //var health = enemy.GetComponent<Health>();
-        //health.onDead.AddListener(() => {
-        //    scoring.AddScore(1);
-        //});
+        GameObject enemy = Instantiate(form.enemyPrefab, _insTransform.position, _insTransform.rotation);
+        
     }
 
 }

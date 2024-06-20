@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bfaf4ec6dfdecc49a969d34a8826cda, type: 3}
+  m_Name: TowerBomb
+  m_EditorClassIdentifier: 
+  FormationGeneral: {fileID: 11400000, guid: 1d49885adfe04fa47b37ff88cc491e45, type: 2}
+  GameObject: {fileID: 6471862176881948153, guid: 288db933c22bb254e865fc6e8357df0e,
+    type: 3}

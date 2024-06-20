@@ -1,17 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-[Serializable]
-
-public class FormationSkill
+[CreateAssetMenu(fileName = "New Formation", menuName = "Formation/Skill")]
+public class FormationSkill : ScriptableObject
 {
-   
-    public float delay;
+
+    public float timeRetrieval;
     public InputActionReference inputSkill;
-    public Formation formation;
+    public FormationGeneral formation;
+    public float count;
 
 }

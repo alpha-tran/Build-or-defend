@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Ground
+  - Tower
+  - MainHome
   layers:
   - Default
   - TransparentFX
@@ -25,7 +28,7 @@ TagManager:
   - Enemy
   - Player
   - Ground
-  - 
+  - MainHome
   - 
   - 
   - 
