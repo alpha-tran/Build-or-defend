@@ -17,9 +17,9 @@ public class MosePosition : MonoBehaviour
     {
         if (_actionClick.action.triggered)
         {
-            var mosePosition = dataMose._actionMousePosition.action.ReadValue<Vector2>();
-            Ray aimingRay = dataMose._camera.ScreenPointToRay(mosePosition);
-            if (Physics.Raycast(aimingRay, out var hitInfo, dataMose._maxDistance, dataMose._checkLayer))
+            var mosePosition = dataMose.ActionMousePosition.action.ReadValue<Vector2>();
+            Ray aimingRay = dataMose.Camera.ScreenPointToRay(mosePosition);
+            if (Physics.Raycast(aimingRay, out var hitInfo, dataMose.MaxDistance, dataMose.CheckLayer))
             {
                 _target.position = hitInfo.point;
             }

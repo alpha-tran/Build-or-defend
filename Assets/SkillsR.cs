@@ -39,10 +39,10 @@ public class SkillsR : MonoBehaviour
 
     private void UpdateRangeObjectPosition()
     {
-        Vector2 mousePosition = dataMose._actionMousePosition.action.ReadValue<Vector2>();
-        Ray aimingRay = dataMose._camera.ScreenPointToRay(mousePosition);
+        Vector2 mousePosition = dataMose.ActionMousePosition.action.ReadValue<Vector2>();
+        Ray aimingRay = dataMose.Camera.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(aimingRay, out var hitInfo, dataMose._maxDistance, dataMose._checkLayer))
+        if (Physics.Raycast(aimingRay, out var hitInfo, dataMose.MaxDistance, dataMose.CheckLayer))
         {
             Vector3 positionDisplay = hitInfo.point;
             positionDisplay.y = 5f;

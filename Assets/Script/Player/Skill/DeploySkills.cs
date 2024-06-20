@@ -32,11 +32,11 @@ public class DeploySkills : MonoBehaviour
         {
             if (formationSkill[i].inputSkill.action.IsPressed())
             {
-                var mousePosition = dataMose._actionMousePosition.action.ReadValue<Vector2>(); // lấy vị trí của cho chuột
+                var mousePosition = dataMose.ActionMousePosition.action.ReadValue<Vector2>(); // lấy vị trí của cho chuột
                 skillActive = true;
 
-                Ray aimingRay = dataMose._camera.ScreenPointToRay(mousePosition); // Raycat theo vị trí lấy đc
-                if (Physics.Raycast(aimingRay, out var hitInfo, dataMose._maxDistance, dataMose._checkLayer))
+                Ray aimingRay = dataMose.Camera.ScreenPointToRay(mousePosition); // Raycat theo vị trí lấy đc
+                if (Physics.Raycast(aimingRay, out var hitInfo, dataMose.MaxDistance, dataMose.CheckLayer))
                 {
 
                     Display(hitInfo.point);
