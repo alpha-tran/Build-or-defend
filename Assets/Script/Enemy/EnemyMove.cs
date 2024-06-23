@@ -15,17 +15,20 @@ public class EnemyMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Tower"))
+        if(other.CompareTag("Tower") || other.CompareTag("Player"))
         {
             _targets.Add(other.gameObject);
+            print("vo");
         }    
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Tower"))
+        if (other.CompareTag("Tower") || other.CompareTag("Player"))
         {
             _targets.Remove(other.gameObject);
+            print(other.gameObject);
+
         }
     }
 
@@ -50,6 +53,7 @@ public class EnemyMove : MonoBehaviour
     private void FindNearestTarget()
     {
         float minDistance = float.MaxValue;
+        _currentTarget = null;
         for (int i = 0; i < _targets.Count; i++)
         {
             var distance = Vector3.Distance(_targets[i].transform.position, transform.position);

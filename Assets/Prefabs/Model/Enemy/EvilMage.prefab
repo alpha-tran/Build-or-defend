@@ -109,7 +109,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 20
+  m_Radius: 25
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -155,8 +155,7 @@ MonoBehaviour:
   _enemyAgent: {fileID: 4529982973519082385}
   _transformTarget: {fileID: 1164051383488803530, guid: 7411d484b5d549e4e8f5394337397f4d,
     type: 3}
-  maxDistance: 10000
-  _attackDistance: 10
+  _attackDistance: 15
 --- !u!114 &7209048157393490643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +174,6 @@ MonoBehaviour:
   _insTransform: {fileID: 8133183211266382925}
   _prefabBullet: {fileID: 2137327965989169884, guid: c219eb6c47bf9d747b767584c0dedbce,
     type: 3}
-  _rangeEnemy: {fileID: 0}
 --- !u!1001 &8836009803697351049
 PrefabInstance:
   m_ObjectHideFlags: 0

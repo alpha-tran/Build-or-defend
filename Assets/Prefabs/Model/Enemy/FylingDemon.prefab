@@ -87,7 +87,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 7
+  m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 360
@@ -118,7 +118,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 13
+  m_Radius: 18
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -149,8 +149,7 @@ MonoBehaviour:
   _enemyAgent: {fileID: 1027959290868987461}
   _transformTarget: {fileID: 1164051383488803530, guid: 7411d484b5d549e4e8f5394337397f4d,
     type: 3}
-  maxDistance: 10000
-  _attackDistance: 0
+  _attackDistance: 10
 --- !u!1001 &1817337193823838130
 PrefabInstance:
   m_ObjectHideFlags: 0

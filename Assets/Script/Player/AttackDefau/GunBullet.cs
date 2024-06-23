@@ -1,81 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class GunBullet : MonoBehaviour
 {
-    [Header("đạn")]
+    [Header("Đạn")]
     [SerializeField] private float _launchingForce; // Lực bắn
     [SerializeField] private float _shootingInterval; // Thời gian giữa các lần bắn
     [SerializeField] private float _rotationSpeed = 5f; // Tốc độ quay
 
-    [Header("kiểm tra kẻ thù")]
+    [Header("Kiểm tra kẻ thù")]
     [SerializeField] private Transform _transformCheck; // Vị trí để kiểm tra kẻ thù
-    [SerializeField] private float _radiuns = 5f; // Bán kính kiểm tra
+    [SerializeField] private float _radius = 5f; // Bán kính kiểm tra
     [SerializeField] private LayerMask _mask; // Layer của kẻ thù
 
-
-    [Header("sinh ra đạn")]
-    [SerializeField] protected Transform _insTransform; // vị trí sinh ra
-    [SerializeField] protected GameObject _prefabBullet; // model
+    [Header("Sinh ra đạn")]
+    [SerializeField] protected Transform _insTransform; // Vị trí sinh ra
+    [SerializeField] protected GameObject _prefabBullet; // Model đạn
 
     private Transform _targetEnemy; // Mục tiêu kẻ thù
-
-    private bool _enabled = false;
-
-    private GameObject CreateInstantiate() => Instantiate(_prefabBullet, _insTransform.position, _insTransform.rotation);
-
 
     private void Start()
     {
         StartCoroutine(ShootCoroutine());
     }
 
-    private void Update()
+    private void CheckEnemy() // Kiểm tra có enemy nào trong phạm vi không
     {
-       
-    }
-
-
-
-    private IEnumerator ShootCoroutine()
-    {
-        while (true)
-        {
-            CheckEnemy();
-            yield return new WaitForSeconds(_shootingInterval);
-        }
-
-         
-    }
-
-    private void CheckEnemy() // kiểm tra có enemy nào trong phạm vi không
-    {
-        Collider[] _check = Physics.OverlapSphere(_transformCheck.position, _radiuns, _mask, QueryTriggerInteraction.Collide);// kiểm tra enemy 
+        Collider[] _check = Physics.OverlapSphere(_transformCheck.position, _radius, _mask, QueryTriggerInteraction.Collide); // Kiểm tra enemy
         foreach (var enemy in _check)
         {
-
-
             _targetEnemy = enemy.transform; // Gán vị trí của enemy tìm được vào biến
             RotationBullet(_targetEnemy);
-            ForceBullet();
+            StartCoroutine(ForceBullet());
             break;
-            
         }
-
-
     }
 
-
-
-   
-
-    private void ForceBullet()
+    private IEnumerator ForceBullet()
     {
-        var bullet = CreateInstantiate();
+        var bullet = Instantiate(_prefabBullet, _insTransform.position, _insTransform.rotation);
+        yield return new WaitForSeconds(2f);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -85,7 +50,6 @@ public class GunBullet : MonoBehaviour
 
     private void RotationBullet(Transform _target)
     {
-        
         if (_target != null)
         {
             Vector3 direction = _target.position - _insTransform.position;
@@ -94,14 +58,21 @@ public class GunBullet : MonoBehaviour
         }
     }
 
+    private IEnumerator ShootCoroutine()
+    {
+        while (true)
+        {
+            CheckEnemy();
+            yield return new WaitForSeconds(_shootingInterval); // Chờ 2 giây trước khi bắn lần tiếp theo
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if (_transformCheck != null)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(_transformCheck.position, _radiuns);
+            Gizmos.DrawWireSphere(_transformCheck.position, _radius);
         }
     }
-
-
 }

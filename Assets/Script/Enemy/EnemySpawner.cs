@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("Sinh ra quái")]
     [SerializeField] private Transform _insTransform; // vị trí sinh ra
-    [SerializeField] private float _enemyInterval;
+    [SerializeField] private float _timeWaves;
 
     [Header("Thông tin quái")]
     [SerializeField] private FormationEnemy[] enemyFor;
@@ -17,28 +17,35 @@ public class EnemySpawner : MonoBehaviour
 
 
     // Start is called before the first frame update
-    private IEnumerator Start()
+
+    private void Start()
+    {
+        StartCoroutine(DelaySpawn());
+    }
+
+
+    private IEnumerator DelaySpawn()
     {
         for(int i = 0; i < enemyFor.Length; i++)
         {
-            yield return new WaitForSeconds(enemyFor[i].delay);
-            SpawnFormation(i);
+            StartCoroutine(SpawnFormation(i));
+            yield return new WaitForSeconds(_timeWaves);
         }    
     }
 
-    private void SpawnFormation(int index)
+    private IEnumerator SpawnFormation(int index)
     {
         FormationEnemy form = enemyFor[index];
-        for(int i = 0; i< form.count; i++)
+        for(int i = 0; i < form.count; i++)
         {
             SpawnEnemy(form);
-        }    
+            yield return new WaitForSeconds(form.delay);
+        }
     }
 
     private void SpawnEnemy(FormationEnemy form)
     {
         GameObject enemy = Instantiate(form.enemyPrefab, _insTransform.position, _insTransform.rotation);
-        
     }
 
 }

@@ -16,4 +16,4 @@ MonoBehaviour:
   inputSkill: {fileID: 6826807840825944951, guid: aac5860775128054788500042dfdea35,
     type: 3}
   formation: {fileID: 11400000, guid: 1f4817b006188ca4d900a84ec986f9ab, type: 2}
-  count: 0
+  count: 6.41

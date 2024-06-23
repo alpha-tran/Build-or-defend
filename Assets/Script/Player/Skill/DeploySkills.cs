@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class DeploySkills : MonoBehaviour
 {
@@ -8,115 +10,87 @@ public class DeploySkills : MonoBehaviour
     [SerializeField] private InputActionReference _inputClick;
     [SerializeField] private GameObject _rangeObject;
     [SerializeField] private float _heightSkill;
-
     [SerializeField] private DataMose dataMose;
     [SerializeField] private GameObject Prefab;
 
+
+    private Vector3 _position;
+    private bool _isSkillReady = true;
+
     void Start()
     {
-
+        StartCoroutine(ManageSkills());
     }
 
     void Update()
     {
-
         DisplayRange();
-
     }
 
-
-    private void DisplayRange() // hiển thị sử dụng chiêu thức
+    private void DisplayRange()
     {
         bool skillActive = false;
+
         for (int i = 0; i < formationSkill.Length; i++)
         {
             if (formationSkill[i].inputSkill.action.IsPressed())
             {
-                var mousePosition = dataMose.ActionMousePosition.action.ReadValue<Vector2>(); // lấy vị trí của cho chuột
+                var mousePosition = dataMose.ActionMousePosition.action.ReadValue<Vector2>();
                 skillActive = true;
 
-                Ray aimingRay = dataMose.Camera.ScreenPointToRay(mousePosition); // Raycat theo vị trí lấy đc
+                Ray aimingRay = dataMose.Camera.ScreenPointToRay(mousePosition);
                 if (Physics.Raycast(aimingRay, out var hitInfo, dataMose.MaxDistance, dataMose.CheckLayer))
                 {
-
                     Display(hitInfo.point);
+                    _position = hitInfo.point;
 
-                    if (formationSkill[i].formation.Type == 3)
+                    if (_inputClick.action.triggered && _isSkillReady)
                     {
-                        updatePosition();
+                        _isSkillReady = false;
+                        StartCoroutine(DelaySkill(formationSkill[i]));
                     }
                 }
-                break;
-
             }
-
         }
+
         _rangeObject.SetActive(skillActive);
-
-
     }
 
     private void Display(Vector3 position)
     {
-        Vector3 positionDisplay = position; // phải tạo một biến để giữ giá trị , 
-        positionDisplay.y = 2f; // không gán trực tiếp cho transform.position.y vì transform.position là thuộc tính chỉ đọc trong Unity
-        _rangeObject.transform.position = positionDisplay;// gán vị trí vào gameObject phụ trách hiển thị
+        Vector3 positionDisplay = position;
+        positionDisplay.y = 2f; // Điều chỉnh chiều cao nếu cần thiết
+        _rangeObject.transform.position = positionDisplay;
     }
 
-    private void updatePosition()
+    private IEnumerator ManageSkills()
     {
-        if (_inputClick.action.triggered)
+        while (true)
         {
-            StartCoroutine(DelaySkill(_rangeObject.transform.position));
+         
+
+            yield return new WaitUntil(() => _inputClick.action.triggered);
         }
     }
 
-
-    private IEnumerator DelaySkill(Vector3 position)
+    private IEnumerator DelaySkill(FormationSkill skill)
     {
+        yield return new WaitForSeconds(skill.timeRetrieval);
 
-        for (int i = 0; i < formationSkill.Length; i++)
-        {
+        DeplopSkillR(_position);
 
-            for (int j = 0; j < formationSkill[i].formation.Type; i++)
-            {
-
-                if (formationSkill[i].formation.Type == 3)
-                {
-                    DeplopSkillR(position);
-                    yield return new WaitForSeconds(formationSkill[i].timeRetrieval);
-                }
-                //else if (formationSkill[i].formation.Type == 2)
-                //{
-
-                //}
-                //else if (formationSkill[i].formation.Type == 1)
-                //{
-
-                //}
-            }
-
-        }
-
+        _isSkillReady = true;
     }
 
-    public void DeplopSkillR(Vector3 mousePosition)
+    public void DeplopSkillR(Vector3 position)
     {
+        Vector3 positionSkill = new Vector3(position.x, _heightSkill, position.z);
+        Instantiate(Prefab, positionSkill, Quaternion.identity);
+        
 
-
-        for (int i = 0; i < formationSkill.Length; i++)
-        {
-
-            if (formationSkill[i].formation.Type == 1)
-            {
-                Vector3 positionSkill = new Vector3(mousePosition.x, _heightSkill, mousePosition.z);
-                Instantiate(Prefab, positionSkill, Quaternion.identity);
-
-            }
-        }
-
+    
     }
+
 
 
 }
-

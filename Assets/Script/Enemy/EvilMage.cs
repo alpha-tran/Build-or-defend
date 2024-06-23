@@ -21,7 +21,7 @@ public class EvilMage : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(ShootCoroutine());//
+        StartCoroutine(ShootCoroutine());
     }
 
     private IEnumerator ShootCoroutine()

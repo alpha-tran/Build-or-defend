@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SkillEffects : MonoBehaviour
 {
+
+    public Rigidbody rb; // Tham chiếu tới Rigidbody của vật thể
+    public float gravityMultiplier = 2.0f; // Hệ số nhân trọng lực bổ sung
+
     private void Start()
     {
             Destroy(gameObject,2f);
@@ -17,4 +21,14 @@ public class SkillEffects : MonoBehaviour
         }   
     }
 
+    void FixedUpdate()
+    {
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+
+        Vector3 additionalGravity = Physics.gravity * (gravityMultiplier - 1);
+        rb.AddForce(additionalGravity, ForceMode.Acceleration);
+    }
 }
