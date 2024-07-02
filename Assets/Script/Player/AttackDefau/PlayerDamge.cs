@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class PlayerDamge : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject explosionPrefab;
+    public int damage;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
         
+        if (other.TryGetComponent<Health>(out var Health))
+        {
+            Health.ApplyDamage(damage);
+        }
+
+        CreateExplosion();
+        Destroy(gameObject);
+
+
     }
+    private void CreateExplosion()
+       => Instantiate(explosionPrefab, transform.position, transform.rotation);
+
+    private void OnBecameInvisible() => Destroy(gameObject);
 }

@@ -1,76 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EvilMage : MonoBehaviour
 {
-    [Header("đạn")]
-    [SerializeField] private float _launchingForce; // Lực bắn
-    [SerializeField] private float _shootingInterval; // Thời gian giữa các lần bắn
-    [SerializeField] private float _rotationSpeed = 5f; // Tốc độ quay
+    //[Header("đạn")]
+    //[SerializeField] private float _launchingForce; // Lực bắn
+    //[SerializeField] private float _shootingInterval; // Thời gian giữa các lần bắn
+    //[SerializeField] private float _rotationSpeed = 5f; // Tốc độ quay
 
-    [Header("sinh ra đạn")]
-    [SerializeField] protected Transform _insTransform; // vị trí sinh ra
-    [SerializeField] protected GameObject _prefabBullet; // model
+    //[Header("sinh ra đạn")]
+    //[SerializeField] protected GameObject _prefabBullet; // model
 
-    private Transform _targetTower; 
-
-
-    private GameObject CreateInstantiate() => Instantiate(_prefabBullet, _insTransform.position, _insTransform.rotation);
+    //private Transform _targetTower; 
 
 
-    private void Start()
+
+    public void FireBall(Transform indexPosition)
     {
-        StartCoroutine(ShootCoroutine());
-    }
-
-    private IEnumerator ShootCoroutine()
-    {
-        while (true)
-        {
-            Check();
-            yield return new WaitForSeconds(_shootingInterval);
-        }
-
+        //Vector3 position = new Vector3(indexPosition.position.x, indexPosition.position.y + 3f, indexPosition.position.z);
+        //Instantiate(_prefabBullet, position, Quaternion.identity);
 
     }
 
-    private void Check() // kiểm tra có enemy nào trong phạm vi không
-    {
-        //Collider[] _checkRange = _rangeEnemy.CheckTower();
-        //foreach (var enemy in _checkRange)
-        //{
-
-
-        //    _targetTower = enemy.transform; 
-        //    RotationBullet(_targetTower);
-        //    ForceBullet();
-        //    break;
-
-        //}
-
-
-    }
-    private void ForceBullet()
-    {
-        var bullet = CreateInstantiate();
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.AddForce(_insTransform.forward * _launchingForce, ForceMode.Impulse);
-        }
-    }
-
-    private void RotationBullet(Transform _target)
-    {
-
-        if (_target != null)
-        {
-            Vector3 direction = _target.position - _insTransform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            _insTransform.rotation = Quaternion.Lerp(_insTransform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
-        }
-    }
-
-   
 }

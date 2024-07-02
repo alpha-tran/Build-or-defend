@@ -1,60 +1,81 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GunBullet : MonoBehaviour
 {
     [Header("Đạn")]
-    [SerializeField] private float _launchingForce; // Lực bắn
-    [SerializeField] private float _shootingInterval; // Thời gian giữa các lần bắn
-    [SerializeField] private float _rotationSpeed = 5f; // Tốc độ quay
+    [SerializeField] private float _launchingForce;
+    [SerializeField] private float _shootingInterval;
+    [SerializeField] private float _rotationSpeed = 5f;
 
     [Header("Kiểm tra kẻ thù")]
-    [SerializeField] private Transform _transformCheck; // Vị trí để kiểm tra kẻ thù
-    [SerializeField] private float _radius = 5f; // Bán kính kiểm tra
-    [SerializeField] private LayerMask _mask; // Layer của kẻ thù
+    [SerializeField] private Transform _transformCheck;
+    [SerializeField] private float _radius = 5f;
+    [SerializeField] private LayerMask _mask;
 
     [Header("Sinh ra đạn")]
-    [SerializeField] protected Transform _insTransform; // Vị trí sinh ra
-    [SerializeField] protected GameObject _prefabBullet; // Model đạn
+    [SerializeField] protected Transform _insTransform;
+    [SerializeField] protected GameObject _prefabBullet;
+    [SerializeField] private float _timeDelay = 3f;
 
-    private Transform _targetEnemy; // Mục tiêu kẻ thù
+
+    private Transform _targetEnemy;
+    private bool _isDestroyed;
+    private GameObject _bullet;
 
     private void Start()
     {
         StartCoroutine(ShootCoroutine());
     }
 
-    private void CheckEnemy() // Kiểm tra có enemy nào trong phạm vi không
+    private void Update()
     {
-        Collider[] _check = Physics.OverlapSphere(_transformCheck.position, _radius, _mask, QueryTriggerInteraction.Collide); // Kiểm tra enemy
+        if (_bullet != null && _targetEnemy != null)
+        {
+            if (_targetEnemy == null)
+            {
+                _targetEnemy = null;
+                return;
+            }
+
+            Vector3 direction = _targetEnemy.position - _bullet.transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            _bullet.transform.rotation = Quaternion.Slerp(_bullet.transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+        }
+    }
+
+    private void CheckEnemy()
+    {
+        Collider[] _check = Physics.OverlapSphere(_transformCheck.position, _radius, _mask, QueryTriggerInteraction.Collide);
         foreach (var enemy in _check)
         {
-            _targetEnemy = enemy.transform; // Gán vị trí của enemy tìm được vào biến
-            RotationBullet(_targetEnemy);
-            StartCoroutine(ForceBullet());
+            _targetEnemy = enemy.transform;
+            if (enemy != null)
+            {
+                StartCoroutine(ForceBullet());
+            }
             break;
         }
     }
 
     private IEnumerator ForceBullet()
     {
-        var bullet = Instantiate(_prefabBullet, _insTransform.position, _insTransform.rotation);
-        yield return new WaitForSeconds(2f);
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
+        if (!_isDestroyed && _targetEnemy != null)
         {
-            rb.AddForce(_insTransform.forward * _launchingForce, ForceMode.Impulse);
-        }
-    }
+            _bullet = Instantiate(_prefabBullet, _insTransform.position, _insTransform.rotation, transform);
+            yield return new WaitForSeconds(_timeDelay);
 
-    private void RotationBullet(Transform _target)
-    {
-        if (_target != null)
-        {
-            Vector3 direction = _target.position - _insTransform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            _insTransform.rotation = Quaternion.Lerp(_insTransform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+            if (_bullet != null && !_isDestroyed && _targetEnemy != null)
+            {
+                _bullet.transform.SetParent(null);
+                Rigidbody rb = _bullet.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    Vector3 direction = _targetEnemy.position - _bullet.transform.position;
+                    rb.AddForce(direction.normalized * _launchingForce, ForceMode.Impulse);
+                }
+                _bullet = null; // Reset bullet after launching
+            }
         }
     }
 
@@ -63,7 +84,7 @@ public class GunBullet : MonoBehaviour
         while (true)
         {
             CheckEnemy();
-            yield return new WaitForSeconds(_shootingInterval); // Chờ 2 giây trước khi bắn lần tiếp theo
+             yield return new WaitForSeconds(_shootingInterval); 
         }
     }
 
@@ -74,5 +95,10 @@ public class GunBullet : MonoBehaviour
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(_transformCheck.position, _radius);
         }
+    }
+
+    private void OnDestroy()
+    {
+        _isDestroyed = true;
     }
 }
