@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class Lazer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int _damage;
+    [SerializeField] private GameObject _explosionEffect;
+    public LineRenderer LaserLine;
+       
+
+    public void DeliverDamage(Collider victim)
     {
-        
+        var health = victim.GetComponentInParent<Health>();
+        if (health != null)
+        {
+            health.ApplyDamage(_damage);
+            print("abc");
+
+        }
+        Instantiate(_explosionEffect);
+        Destroy(_explosionEffect,2f);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }

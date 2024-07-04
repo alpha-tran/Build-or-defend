@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,12 +8,13 @@ public class EnemyState : MonoBehaviour
     public NavMeshAgent _enemyAgent;
     public GameObject _transformTarget;
     public float _attackDistance;
-
+    public CheckDame CheckDamage;
 
     private List<GameObject> _targets = new List<GameObject>();
     private GameObject _currentTarget;
     private StateBase _currentState;
-    private StateBase _previousState; // Add this field to store previous state
+    private StateBase _previousState;
+    private bool _isHitState = false;
 
     internal GameObject CurrentTarget => _currentTarget;
 
@@ -22,7 +24,6 @@ public class EnemyState : MonoBehaviour
     {
         _enemyAgent = _enemyAgent ?? GetComponent<NavMeshAgent>();
         _health = GetComponent<Health>();
-
         if (_transformTarget == null)
         {
             return;
@@ -34,10 +35,16 @@ public class EnemyState : MonoBehaviour
     private void Update()
     {
         _currentState?.Execute();
+        HandleDamageTaken();
     }
 
     public void ChangeState(string newStateName)
     {
+        if (newStateName == "HitState")
+        {
+            _isHitState = true;
+        }
+
         StateBase newState = CreateState(newStateName);
 
         if (newState == null)
@@ -46,9 +53,14 @@ public class EnemyState : MonoBehaviour
         }
 
         _previousState = _currentState;
-        _currentState?.Exit(); 
+        _currentState?.Exit();
         _currentState = newState;
-        _currentState.Enter(this); 
+        _currentState.Enter(this);
+
+        if (_isHitState && newStateName != "HitState")
+        {
+            _isHitState = false;
+        }
     }
 
     public StateBase PreviousState => _previousState;
@@ -74,7 +86,7 @@ public class EnemyState : MonoBehaviour
     {
         if (_currentTarget == null)
         {
-            return false; // Don't attack if no target
+            return false;
         }
 
         float distance = Vector3.Distance(_currentTarget.transform.position, transform.position);
@@ -85,9 +97,6 @@ public class EnemyState : MonoBehaviour
     {
         return _targets.Count > 0;
     }
-
-    
- 
 
     public void UpdateTargetList()
     {
@@ -119,8 +128,6 @@ public class EnemyState : MonoBehaviour
         {
             _targets.Add(other.gameObject);
         }
-
-    
     }
 
     private void OnTriggerExit(Collider other)
@@ -137,28 +144,28 @@ public class EnemyState : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _attackDistance);
     }
 
-
-
     public bool CheckDame()
     {
-        var checkDameComponent = GetComponent<CheckDame>();
-        print(checkDameComponent._check);
-        if (checkDameComponent._check == true)
-        {
-
-            return true;
-
-        }
-        return false;
+        return CheckDamage.Check;
     }
 
     public void HandleDamageTaken()
     {
-        if (CheckDame())
+        if (CheckDame() && !_isHitState)
         {
             ChangeState("HitState");
         }
     }
+
+    public void OnHitAnimationEnd()
+    {
+        if (_isHitState && _previousState != null)
+        {
+            ChangeState(_previousState.GetType().Name);
+        }
+    }
+
+
 
 
 }

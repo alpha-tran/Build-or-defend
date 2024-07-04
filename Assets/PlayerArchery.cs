@@ -4,13 +4,15 @@ public class PlayerArchery : TakeDamage
     [SerializeField] private int _damage;
     [SerializeField] private GameObject _explosionEffect;
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
             DeliverDamage(other);
             Destroy(gameObject);
-            Instantiate(_explosionEffect, other.transform.position, Quaternion.identity);
+            var a = Instantiate(_explosionEffect, other.transform.position, Quaternion.identity);
+            Destroy(a, 4f);
         }
 
     }
@@ -24,10 +26,7 @@ public class PlayerArchery : TakeDamage
         }
     }
 
-    public void CreateExplosionEffect()
-    {
-        
-    }
+   
 }
 
 
