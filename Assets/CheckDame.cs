@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class CheckDame : MonoBehaviour
 {
-    public bool _check = false;
+    private bool _check;
+    internal bool Check => _check;
+
+    private void Update()
+    {
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Dame"))
+        if (other.CompareTag("Dame") && other.gameObject != null)
         {
            _check = true;
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Dame"))
-        {
-            _check = false;
 
-        }
+    public void ResetHit()
+    {
+        _check = false;
     }
+
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class ChaseState : StateBase
 {
@@ -7,6 +8,24 @@ public class ChaseState : StateBase
     protected override void OnEnter()
     {
         _isAttacking = false;
+
+        if (!_enemy._enemyAgent.isOnNavMesh)
+        {
+            // Di chuyển NavMeshAgent đến một vị trí hợp lệ trên NavMesh
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(_enemy.transform.position, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                _enemy.transform.position = hit.position;
+                _enemy._enemyAgent.Warp(hit.position);
+            }
+            else
+            {
+                Debug.LogError("NavMeshAgent is not on the NavMesh and could not find a valid position!");
+                _enemy.ChangeState("MoveToTargetState");
+                return;
+            }
+        }
+
         _enemy._enemyAgent.enabled = true;
     }
 
@@ -23,7 +42,7 @@ public class ChaseState : StateBase
 
         if (_enemy.ShouldAttackCondition() && !_isAttacking)
         {
-            _enemy._enemyAgent.SetDestination(_enemy.transform.position); 
+            _enemy._enemyAgent.SetDestination(_enemy.transform.position);
             _enemy.ChangeState("AttackState");
             _isAttacking = true;
         }

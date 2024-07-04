@@ -18,7 +18,6 @@ public class GunBullet : MonoBehaviour
     [SerializeField] protected GameObject _prefabBullet;
     [SerializeField] private float _timeDelay = 3f;
 
-
     private Transform _targetEnemy;
     private bool _isDestroyed;
     private GameObject _bullet;
@@ -32,12 +31,6 @@ public class GunBullet : MonoBehaviour
     {
         if (_bullet != null && _targetEnemy != null)
         {
-            if (_targetEnemy == null)
-            {
-                _targetEnemy = null;
-                return;
-            }
-
             Vector3 direction = _targetEnemy.position - _bullet.transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             _bullet.transform.rotation = Quaternion.Slerp(_bullet.transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
@@ -46,15 +39,14 @@ public class GunBullet : MonoBehaviour
 
     private void CheckEnemy()
     {
-        Collider[] _check = Physics.OverlapSphere(_transformCheck.position, _radius, _mask, QueryTriggerInteraction.Collide);
-        foreach (var enemy in _check)
+        Collider[] detectedEnemies = Physics.OverlapSphere(_transformCheck.position, _radius, _mask, QueryTriggerInteraction.Collide);
+        if (detectedEnemies.Length > 0)
         {
-            _targetEnemy = enemy.transform;
-            if (enemy != null)
-            {
-                StartCoroutine(ForceBullet());
-            }
-            break;
+            _targetEnemy = detectedEnemies[0].transform;
+        }
+        else
+        {
+            _targetEnemy = null;
         }
     }
 
@@ -74,6 +66,10 @@ public class GunBullet : MonoBehaviour
                     Vector3 direction = _targetEnemy.position - _bullet.transform.position;
                     rb.AddForce(direction.normalized * _launchingForce, ForceMode.Impulse);
                 }
+            }
+            else
+            {
+                Destroy(_bullet, 5f); // Ensure the bullet is destroyed after a period
                 _bullet = null; // Reset bullet after launching
             }
         }
@@ -81,10 +77,14 @@ public class GunBullet : MonoBehaviour
 
     private IEnumerator ShootCoroutine()
     {
-        while (true)
+        while (!_isDestroyed)
         {
             CheckEnemy();
-             yield return new WaitForSeconds(_shootingInterval); 
+            if (_targetEnemy != null && _bullet == null)
+            {
+                StartCoroutine(ForceBullet());
+            }
+            yield return new WaitForSeconds(_shootingInterval);
         }
     }
 

@@ -14,11 +14,7 @@ public class AttackState : StateBase
         {
             _enemy.ChangeState("ChaseState");
         }
-        else
-        {
-            // Implement your attack logic here
-            Debug.Log("Attacking target");
-        }
+   
     }
 
     protected override void OnExit()

@@ -17,6 +17,8 @@ public class TowerLaser : MonoBehaviour
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private LayerMask _enemyLayerMask;
 
+    public UnityEvent lazer;
+
     public LineRenderer LaserLine;
 
     private Transform m_targetEnemy;
@@ -65,8 +67,34 @@ public class TowerLaser : MonoBehaviour
             LaserLine.positionCount = 2;
             LaserLine.SetPosition(0, LaserLine.transform.position);
             LaserLine.SetPosition(1, m_targetEnemy.position);
+
+
+            Vector3 direction = m_targetEnemy.position - LaserLine.transform.position;
+            RaycastHit hit;
+
+            Debug.DrawRay(LaserLine.transform.position, direction, Color.red, 1.0f); // Draw the ray for visualization
+
+            if (Physics.Raycast(LaserLine.transform.position, direction, out hit, Mathf.Infinity, _enemyLayerMask,QueryTriggerInteraction.Collide))
+            {
+                Debug.Log("trúng enemy");
+                if (hit.transform == m_targetEnemy)
+                {
+                    Debug.Log("hello");
+                    lazer.Invoke();
+                }
+                else
+                {
+                    Debug.Log("khác vị trí");
+                }
+            }
+            else
+            {
+                Debug.Log("không trúng.");
+            }
         }
+
     }
+
 
     private void AimAtEnemy()
     {
@@ -95,6 +123,8 @@ public class TowerLaser : MonoBehaviour
 
     private Vector3 GetDirectionForYAxis(Vector3 direction)
     {
+
+
         direction.x = 0; 
         return direction.normalized;
     }
