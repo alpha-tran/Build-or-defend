@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet_Dame : TakeDamage
+public class Bullet_Dame :MonoBehaviour
 {
     [SerializeField] private int _damage;
     private List<Health> _hitList = new List<Health>();

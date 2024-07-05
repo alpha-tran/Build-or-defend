@@ -1,23 +1,22 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int _maxHealthPoint;
-    public int MaxHealthPoint => _maxHealthPoint;
+    [SerializeField] private float _maxHealthPoint;
+    public float MaxHealthPoint => _maxHealthPoint;
 
     public UnityEvent Dead;
-    public UnityEvent<int> DamageTaken;
+    public UnityEvent<float> DamageTaken;
     public UnityEvent ValueChanged;
 
-    private int _healthPoint;
-    public int HealthPoint
+    private float _healthPoint;
+    public float HealthPoint
     {
         get => _healthPoint;
         private set
         {
-            if (_healthPoint != value)
+            if (Mathf.Abs(_healthPoint - value) > Mathf.Epsilon)
             {
                 _healthPoint = Mathf.Clamp(value, 0, MaxHealthPoint);
                 ValueChanged.Invoke();
@@ -39,7 +38,7 @@ public class Health : MonoBehaviour
         return !IsDead;
     }
 
-    public void ApplyDamage(int damage)
+    public void ApplyDamage(float damage)
     {
         if (!CanTakeDamage()) return;
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyNav: {fileID: 4529982973519082385, guid: d8f704717f0184e4b8811e4cd3bce370,
     type: 3}
-  count: 1
+  count: 0
   delay: 2
   formation: {fileID: 11400000, guid: 1b1e827dba762fe44aada09a5f7cf563, type: 2}
   enemyPrefab: {fileID: 8538684162306459646, guid: d8f704717f0184e4b8811e4cd3bce370,

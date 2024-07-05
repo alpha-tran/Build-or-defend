@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public class PlayerArchery : TakeDamage
+public class PlayerArchery :MonoBehaviour
 {
     [SerializeField] private int _damage;
     [SerializeField] private GameObject _explosionEffect;

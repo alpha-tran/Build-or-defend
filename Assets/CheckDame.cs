@@ -7,10 +7,6 @@ public class CheckDame : MonoBehaviour
     private bool _check;
     internal bool Check => _check;
 
-    private void Update()
-    {
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Dame") && other.gameObject != null)
