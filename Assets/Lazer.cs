@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class Lazer : MonoBehaviour
 {
-    [SerializeField] private int _damage;
-    [SerializeField] private GameObject _explosionEffect;
-    public LineRenderer LaserLine;
-       
+
+    [SerializeField] private float _damage;
+    public void setPerant(Transform positionEnemy,Collider other)
+    {
+        gameObject.transform.position = positionEnemy.position;
+        DeliverDamage(other);
+    }
 
     public void DeliverDamage(Collider victim)
     {
         var health = victim.GetComponentInParent<Health>();
         if (health != null)
         {
-            health.ApplyDamage(_damage);
-            print("abc");
-
+            health.ApplyDamage(_damage * Time.deltaTime);
         }
-        Instantiate(_explosionEffect);
-        Destroy(_explosionEffect,2f);
     }
-
-   
 }

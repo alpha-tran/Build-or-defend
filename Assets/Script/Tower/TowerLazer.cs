@@ -17,14 +17,13 @@ public class TowerLaser : MonoBehaviour
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private LayerMask _enemyLayerMask;
 
-    public UnityEvent lazer;
+    public Lazer _lazer;
 
     public LineRenderer LaserLine;
 
     private Transform m_targetEnemy;
 
-    [Header("Movement")]
-    [SerializeField] private float _speed = 5f;
+    private Collider[] detectedEnemies;
 
     private void Update()
     {
@@ -34,15 +33,12 @@ public class TowerLaser : MonoBehaviour
             AimAtEnemy();
             Lazer();
         }
-        else
-        {
-            Lazer();
-        }
+       
     }
 
     private void CheckForEnemy()
     {
-        Collider[] detectedEnemies = Physics.OverlapSphere(_transformCheck.position, _detectionRadius, _enemyLayerMask, QueryTriggerInteraction.Collide);
+        detectedEnemies = Physics.OverlapSphere(_transformCheck.position, _detectionRadius, _enemyLayerMask, QueryTriggerInteraction.Collide);
         m_targetEnemy = detectedEnemies.Length > 0 ? detectedEnemies[0].transform : null;
     }
 
@@ -59,8 +55,6 @@ public class TowerLaser : MonoBehaviour
         else
         {
             LaserLine.enabled = true;
-            LaserLine.startColor = Color.yellow;
-            LaserLine.endColor = Color.yellow;
             LaserLine.startWidth = 0.1f;
             LaserLine.endWidth = 0.1f;
 
@@ -76,16 +70,7 @@ public class TowerLaser : MonoBehaviour
 
             if (Physics.Raycast(LaserLine.transform.position, direction, out hit, Mathf.Infinity, _enemyLayerMask,QueryTriggerInteraction.Collide))
             {
-                Debug.Log("trúng enemy");
-                if (hit.transform == m_targetEnemy)
-                {
-                    Debug.Log("hello");
-                    lazer.Invoke();
-                }
-                else
-                {
-                    Debug.Log("khác vị trí");
-                }
+                _lazer.setPerant(hit.transform, hit.collider);
             }
             else
             {
