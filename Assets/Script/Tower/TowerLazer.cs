@@ -1,6 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 public class TowerLaser : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class TowerLaser : MonoBehaviour
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private LayerMask _enemyLayerMask;
 
-    public CheckDamages _lazer;
+    public CheckDamagesLazer _lazer;
 
     public LineRenderer LaserLine;
 
@@ -33,7 +31,10 @@ public class TowerLaser : MonoBehaviour
             AimAtEnemy();
             Lazer();
         }
-       
+        else
+        {
+            LaserLine.enabled = false; // Tắt line khi không có mục tiêu
+        }
     }
 
     private void CheckForEnemy()
@@ -62,24 +63,18 @@ public class TowerLaser : MonoBehaviour
             LaserLine.SetPosition(0, LaserLine.transform.position);
             LaserLine.SetPosition(1, m_targetEnemy.position);
 
-
             Vector3 direction = m_targetEnemy.position - LaserLine.transform.position;
             RaycastHit hit;
 
             Debug.DrawRay(LaserLine.transform.position, direction, Color.red, 1.0f); // Draw the ray for visualization
 
-            if (Physics.Raycast(LaserLine.transform.position, direction, out hit, Mathf.Infinity, _enemyLayerMask,QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(LaserLine.transform.position, direction, out hit, Mathf.Infinity, _enemyLayerMask, QueryTriggerInteraction.Collide))
             {
-                _lazer.setPerant(hit.collider);
-            }
-            else
-            {
-                Debug.Log("không trúng.");
+                _lazer.SetPerant(hit.collider);
+                _lazer.SetPositionColliderCheckAnimEnemy(hit.transform);
             }
         }
-
     }
-
 
     private void AimAtEnemy()
     {
@@ -108,9 +103,7 @@ public class TowerLaser : MonoBehaviour
 
     private Vector3 GetDirectionForYAxis(Vector3 direction)
     {
-
-
-        direction.x = 0; 
+        direction.x = 0;
         return direction.normalized;
     }
 

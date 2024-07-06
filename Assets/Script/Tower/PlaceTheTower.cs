@@ -5,10 +5,18 @@ using UnityEngine;
 public class PlaceTheTower : MonoBehaviour
 {
     [SerializeField] private GameObject _PrefabSkill;
-    [SerializeField] private float _heightSkill;
+
     public void Begin(Vector3 position)
     {
-        position.y = _heightSkill;
-        Instantiate(_PrefabSkill, position, Quaternion.identity);
+        RaycastHit hit;
+        if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            Vector3 spawnPosition = hit.point;
+            Instantiate(_PrefabSkill, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError("Raycast did not hit any ground surface.");
+        }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,25 +33,28 @@ public class AreaSelector : MonoBehaviour
         _rangeIndicator.gameObject.SetActive(true);
         enabled = true;
     }
-
-	public void Update()
-	{
-		var mousePosition = _dataMose.MousePosition;
-		var ray = _dataMose.Camera.ScreenPointToRay(mousePosition);
-		if (Physics.Raycast(ray, out var hitInfo, _dataMose.MaxDistance, _dataMose.CheckLayer))
-		{
-			_center = hitInfo.point;
-			_center.y = height;
-			_rangeIndicator.position = _center;
-		}
-
-		if (Input.anyKeyDown || _inputMoseCancel.action.triggered)
-		{
-			_onCencal = true;
-
+    public void Update()
+    {
+        var mousePosition = _dataMose.MousePosition;
+        var ray = _dataMose.Camera.ScreenPointToRay(mousePosition);
+        if (Physics.Raycast(ray, out var hitInfo, _dataMose.MaxDistance, _dataMose.CheckLayer))
+        {
+            _center = hitInfo.point;
+            _center.y = height;
+            _rangeIndicator.position = new Vector3(hitInfo.point.x, hitInfo.point.y + 3f, hitInfo.point.z);
         }
-	}
-	[ContextMenu("Accept")]
+        else
+        {
+            Cancel(); 
+        }
+
+        if (Input.anyKeyDown || _inputMoseCancel.action.triggered)
+        {
+            _onCencal = true;
+        }
+    }
+
+    [ContextMenu("Accept")]
 	public void Accept()
     {
 		Stop();

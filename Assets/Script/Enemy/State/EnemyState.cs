@@ -144,7 +144,7 @@ public class EnemyState : MonoBehaviour
             _targets.Add(other.gameObject);
         }
     }
-
+    
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Tower") || other.CompareTag("Player"))
@@ -180,7 +180,10 @@ public class EnemyState : MonoBehaviour
         }
     }
 
-
+    public bool CheckTransformTargetPosition()
+    {
+        return _transformTarget != null && _transformTarget.transform.position != null;
+    }
 
 
 }
