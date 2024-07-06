@@ -17,7 +17,7 @@ public class TowerLaser : MonoBehaviour
     [SerializeField] private float _detectionRadius = 5f;
     [SerializeField] private LayerMask _enemyLayerMask;
 
-    public Lazer _lazer;
+    public CheckDamages _lazer;
 
     public LineRenderer LaserLine;
 
@@ -70,7 +70,7 @@ public class TowerLaser : MonoBehaviour
 
             if (Physics.Raycast(LaserLine.transform.position, direction, out hit, Mathf.Infinity, _enemyLayerMask,QueryTriggerInteraction.Collide))
             {
-                _lazer.setPerant(hit.transform, hit.collider);
+                _lazer.setPerant(hit.collider);
             }
             else
             {

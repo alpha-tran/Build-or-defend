@@ -8,14 +8,14 @@ public class EnemyState : MonoBehaviour
     public NavMeshAgent _enemyAgent;
     public GameObject _transformTarget;
     public float _attackDistance;
-    public CheckDame CheckDamage;
+    public CheckDameAnim CheckDamage;
 
     private List<GameObject> _targets = new List<GameObject>();
     private GameObject _currentTarget;
     private StateBase _currentState;
     private StateBase _previousState;
     private bool _isHitState = false;
-
+    public StateBase PreviousState => _previousState;
     internal GameObject CurrentTarget => _currentTarget;
 
     private Health _health;
@@ -36,6 +36,10 @@ public class EnemyState : MonoBehaviour
     {
         _currentState?.Execute();
         HandleDamageTaken();
+        if (_currentTarget != null)
+        {
+            RotateTowards(_currentTarget.transform.position);
+        }
     }
 
     public void ChangeState(string newStateName)
@@ -63,7 +67,7 @@ public class EnemyState : MonoBehaviour
         }
     }
 
-    public StateBase PreviousState => _previousState;
+   
 
     private StateBase CreateState(string stateName)
     {
@@ -103,10 +107,11 @@ public class EnemyState : MonoBehaviour
         _targets.RemoveAll(target => target == null);
     }
 
-    public void FindNearestTarget()
+    public Transform FindNearestTarget()
     {
         float minDistance = float.MaxValue;
         _currentTarget = null;
+
         foreach (var target in _targets)
         {
             float distance = Vector3.Distance(target.transform.position, transform.position);
@@ -116,10 +121,20 @@ public class EnemyState : MonoBehaviour
                 _currentTarget = target;
             }
         }
+
         if (_currentTarget == null)
         {
             _currentTarget = _transformTarget;
         }
+
+        return _currentTarget?.transform;
+    }
+
+    public void RotateTowards(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
     private void OnTriggerEnter(Collider other)
