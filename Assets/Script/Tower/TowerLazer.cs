@@ -40,7 +40,23 @@ public class TowerLaser : MonoBehaviour
     private void CheckForEnemy()
     {
         detectedEnemies = Physics.OverlapSphere(_transformCheck.position, _detectionRadius, _enemyLayerMask, QueryTriggerInteraction.Collide);
-        m_targetEnemy = detectedEnemies.Length > 0 ? detectedEnemies[0].transform : null;
+        m_targetEnemy = FindClosestEnemy(detectedEnemies);
+    }
+
+    private Transform FindClosestEnemy(Collider[] enemies)
+    {
+        Transform closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+        foreach (Collider enemyCollider in enemies)
+        {
+            float distance = Vector3.Distance(_transformCheck.position, enemyCollider.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemyCollider.transform;
+            }
+        }
+        return closestEnemy;
     }
 
     private void Lazer()
