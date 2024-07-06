@@ -120,6 +120,7 @@ MonoBehaviour:
   _insTransform: {fileID: 7013570305842052640}
   _prefabBullet: {fileID: 2137327965989169884, guid: c219eb6c47bf9d747b767584c0dedbce,
     type: 3}
+  _timeDelay: 5
 --- !u!136 &2978096703274210014
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 4
   m_Height: 8
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}

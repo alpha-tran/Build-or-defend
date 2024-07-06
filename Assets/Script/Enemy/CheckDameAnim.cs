@@ -1,17 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CheckDameAnim : MonoBehaviour
 {
     private bool _check;
     internal bool Check => _check;
 
-    private void OnTriggerEnter(Collider other)
+    public LayerMask overlapLayerMask; // LayerMask để chỉ định các layer muốn kiểm tra va chạm
+    public float checkRadius = 1.0f;    // Bán kính của OverlapSphere
+
+    void Start()
     {
-        if (other.CompareTag("Dame") && other.gameObject != null)
+        _check = false;
+    }
+
+    void Update()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, overlapLayerMask,QueryTriggerInteraction.Collide);
+
+        _check = false;
+        foreach (Collider collider in colliders)
         {
-           _check = true;
+            if (collider.CompareTag("Dame"))
+            {
+                print("alo");
+                _check = true;
+                break;
+            }
         }
     }
 
@@ -20,4 +34,9 @@ public class CheckDameAnim : MonoBehaviour
         _check = false;
     }
 
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, checkRadius);
+    }
 }

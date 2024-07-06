@@ -4,8 +4,14 @@ public class MoveToTargetState : StateBase
 {
     protected override void OnEnter()
     {
-        _enemy._enemyAgent.enabled = true;
-        _enemy._enemyAgent.SetDestination(_enemy._transformTarget.transform.position);
+        if (_enemy.CheckTransformTargetPosition())
+        {
+            _enemy._enemyAgent.enabled = true;
+            _enemy._enemyAgent.SetDestination(_enemy._transformTarget.transform.position);
+        }
+        else
+        {
+        }
     }
 
     public override void Execute()
@@ -21,12 +27,10 @@ public class MoveToTargetState : StateBase
 
         if (_enemy._enemyAgent.remainingDistance < 0.5f)
         {
-            // Logic for when enemy reaches the final target can be implemented here
         }
     }
 
     protected override void OnExit()
     {
-        Debug.Log("Exiting MoveToTarget State");
     }
 }

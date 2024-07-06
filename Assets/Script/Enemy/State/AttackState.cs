@@ -19,6 +19,5 @@ public class AttackState : StateBase
 
     protected override void OnExit()
     {
-        Debug.Log("Exiting Attack State");
     }
 }
