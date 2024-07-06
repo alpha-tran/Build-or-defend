@@ -13,10 +13,7 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Thông tin quái")]
     [SerializeField] private FormationEnemy[] enemyFor;
-
-
-
-    // Start is called before the first frame update
+    [SerializeField] private int m_countEnemy = 20;
 
     private void Start()
     {
@@ -26,21 +23,29 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator DelaySpawn()
     {
-        for(int i = 0; i < enemyFor.Length; i++)
-        {
-            StartCoroutine(SpawnFormation(i));
-            yield return new WaitForSeconds(_timeWaves);
-        }    
+        //while (m_countEnemy > 0)
+        //{
+            
+            for (int i = 0; i < enemyFor.Length; i++)
+            {
+                StartCoroutine(SpawnFormation(i));
+                yield return new WaitForSeconds(_timeWaves);
+            }
+        //}
+
     }
 
     private IEnumerator SpawnFormation(int index)
     {
         FormationEnemy form = enemyFor[index];
-        for(int i = 0; i < form.count; i++)
+
+        for (int i = 0; i < form.count; i++)
         {
             SpawnEnemy(form);
+
             yield return new WaitForSeconds(form.delay);
         }
+
     }
 
     private void SpawnEnemy(FormationEnemy form)

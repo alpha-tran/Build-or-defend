@@ -1,27 +1,38 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EvilMage : MonoBehaviour
 {
-    //[Header("đạn")]
-    //[SerializeField] private float _launchingForce; // Lực bắn
-    //[SerializeField] private float _shootingInterval; // Thời gian giữa các lần bắn
-    //[SerializeField] private float _rotationSpeed = 5f; // Tốc độ quay
+    [Header("Sinh ra đạn")]
+    [SerializeField] protected GameObject _prefabBullet;
+    [SerializeField] private EnemyState _enemyState;
 
-    //[Header("sinh ra đạn")]
-    //[SerializeField] protected GameObject _prefabBullet; // model
-
-    //private Transform _targetTower; 
-
-
-
-    public void FireBall(Transform indexPosition)
+    private void Start()
     {
-        //Vector3 position = new Vector3(indexPosition.position.x, indexPosition.position.y + 3f, indexPosition.position.z);
-        //Instantiate(_prefabBullet, position, Quaternion.identity);
-
+        StartCoroutine(AttackCoroutine());
     }
 
+    private IEnumerator AttackCoroutine()
+    {
+        while (true)
+        {
+            if (_enemyState.ShouldAttackCondition())
+            {
+                Transform targetTransform = _enemyState.FindNearestTarget();
+                if (targetTransform != null)
+                {
+                    FireBall(targetTransform);
+                    yield return new WaitForSeconds(2f);
+                }
+            }
+            yield return null; 
+        }
+    }
+
+    private void FireBall(Transform targetTransform)
+    {
+        Vector3 position = targetTransform.position + Vector3.up * -1f; 
+        GameObject bullet = Instantiate(_prefabBullet, position, Quaternion.identity);
+        Destroy(bullet, 1f); // Hủy đạn sau 1 giây
+    }
 }
